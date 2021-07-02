@@ -1,0 +1,34 @@
+/* PAGE D'ACCUEIL */
+
+#mainPictureDiv {
+  height: 430px;
+  background-image: url("../images/image-cafe.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+}
+
+#mainPictureDiv h1 {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  font-size: 58px;
+  color: white;
+}
+
+#mainPictureDiv a {
+  margin: 0 auto;
+  font-size: 18px !important;
+}
+
+#mainPictureDiv div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+/* FORM BOOTSTRAP */
+.form-error-icon {
+  color: #d9534f !important;
+}
