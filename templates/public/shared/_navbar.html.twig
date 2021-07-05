@@ -9,6 +9,12 @@
       <ul class="navbar-nav me-auto">
 
         {% if app.user %}
+
+          {% if app.user.roles[0] is same as "ROLE_ADMIN" %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{path('admin_home')}}">Administration</a>
+            </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>
           </li>
