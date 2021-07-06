@@ -17,14 +17,14 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h3>Modifier une catégorie</h3>
-                        <a href="{{path('list_category')}}" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Retour</a>
+                        <h3>Créer un produit</h3>
+                        <a href="{{path('list_product')}}" class="btn btn-primary"><i class="fas fa-angle-double-left"></i> Retour</a>
                     </div>
                     <div class="card-body">
-                        {{form_start(formCategory)}}
-                        {{form_widget(formCategory)}}
-                        <button type="submit" class="btn btn-primary mt-3">Modifier</button>
-                        {{form_end(formCategory)}}
+                        {{form_start(formProduct)}}
+                        {{form_widget(formProduct)}}
+                        <button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
+                        {{form_end(formProduct)}}
                     </div>
                 </div>
             </div>

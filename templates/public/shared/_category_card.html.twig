@@ -1,0 +1,18 @@
+ <div class="card categoryCard">
+    <a href="#">
+        <img
+                {% if category.imageUrl is same as null %}
+                    src="{{ asset('images/image_defaut.jpg') }}" alt="image catÃ©gorie"
+                {% else %}
+                    src="{{ category.imageUrl }}"
+                {% endif %}
+                alt="{{ category.name }}"
+                class="img-fluid"
+        />
+    </a>
+    <div class="card-body categoryCardBody">
+        <a href="#" class="btn btn-primary" style="width:100%;">
+            Consulter {{ category.name }}
+        </a>
+    </div>
+</div>

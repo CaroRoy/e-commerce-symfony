@@ -43,3 +43,23 @@ services:
           entity: App\Entity\Category,
         },
       ]
+
+  App\Doctrine\Listener\CreateProductSlugListener:
+    tags:
+      [
+        {
+          name: "doctrine.orm.entity_listener",
+          event: prePersist,
+          entity: App\Entity\Product,
+        },
+      ]
+
+  App\Doctrine\Listener\EditProductSlugListener:
+    tags:
+      [
+        {
+          name: "doctrine.orm.entity_listener",
+          event: preUpdate,
+          entity: App\Entity\Product,
+        },
+      ]

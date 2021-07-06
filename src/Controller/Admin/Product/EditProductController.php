@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Controller\Admin\Category;
+namespace App\Controller\Admin\Product;
 
-use App\Form\CategoryType;
+use App\Form\ProductType;
 use App\MesServices\ImageServices\DeleteImageService;
-use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class EditCategoryController extends AbstractController {
+class EditProductController extends AbstractController {
     /**
-     * @Route("admin/categorie/modifier/{id}", name="edit_category")
+     * @Route("admin/produit/modifier/{id}", name="edit_product")
      */
-    public function edit(int $id, Request $request, EntityManagerInterface $em, CategoryRepository $categoryRepository, DeleteImageService $deleteImageService) {
-        $category = $categoryRepository->find($id);
+    public function edit(int $id, Request $request, EntityManagerInterface $em, ProductRepository $productRepository, DeleteImageService $deleteImageService) {
+        $product = $productRepository->find($id);
 
-        if (!$category) {
-            $this->addFlash('danger', 'Cette catégorie n\'exsite pas');
-            return $this->redirectToRoute('list_category');
+        if (!$product) {
+            $this->addFlash('danger', 'Ce produit n\'exsite pas');
+            return $this->redirectToRoute('list_product');
         }
 
-        // on enregistre l'image pour pouvoir la supprimer si on a une nouvelle image dans le formulaire :
-        $imageOriginal = $category->getImageUrl();
+        // on stocke l'image pour pouvoir la supprimer si on a une nouvelle image dans le formulaire
+        $imageOriginal = $product->getImageUrl();
 
-        $form = $this->createForm(CategoryType::class, $category);
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -35,7 +35,7 @@ class EditCategoryController extends AbstractController {
                 $file = md5(uniqid()) . '.' . $image->guessExtension();
                 $image->move($this->getParameter('app_images_directory'), $file);
 
-                $category->setImageUrl('/uploads/' . $file);
+                $product->setImageUrl('/uploads/' . $file);
 
                 // SUPPRESSION DE L'IMAGE D'ORIGINE DU DOSSIER UPLOADS (sans Service)
                 // si on a bien un résultat stocké dans $imageOriginal (donc si on a bien une image originale)
@@ -55,10 +55,10 @@ class EditCategoryController extends AbstractController {
 
             $em->flush();
 
-            $this->addFlash('success', 'La catégorie ' . $category->getName() . ' a bien été modifiée');
-            return $this->redirectToRoute('list_category');
+            $this->addFlash('success', 'Le produit ' . $product->getName() . ' a bien été modifié');
+            return $this->redirectToRoute('list_product');
         }
 
-        return $this->render('admin/category/edit_category.html.twig', ['formCategory' => $form->createView()]);
+        return $this->render('admin/product/edit_product.html.twig', ['formProduct' => $form->createView()]);
     }
 }

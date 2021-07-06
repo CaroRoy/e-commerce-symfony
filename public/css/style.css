@@ -1,11 +1,12 @@
 /* PAGE D'ACCUEIL */
 
 #mainPictureDiv {
-  height: 430px;
+  height: 434px;
   background-image: url("../images/image-cafe.jpg");
-  background-repeat: no-repeat;
+  background-repeat: no-repeat, repeat;
   background-position: center;
   background-size: cover;
+
   display: flex;
   align-items: center;
 }
@@ -28,7 +29,41 @@
   margin: 0 auto;
 }
 
-/* FORM BOOTSTRAP */
-.form-error-icon {
-  color: #d9534f !important;
+.categoryCardBody {
+  margin: 0 auto;
+  background: ghostwhite !important;
+}
+
+.categoryCardBody a {
+  background: initial;
+  border: 1px solid black;
+  color: black;
+}
+
+.categoryCard {
+  background: ghostwhite !important;
+  border: none !important;
+}
+
+.productCard {
+  background: ghostwhite !important;
+  border: none !important;
+}
+
+.productCard p {
+  font-size: 16px;
+}
+
+.productCard a {
+  text-decoration: none !important;
+}
+
+.priceProductCard {
+  color: #7a8b99;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.aProductCard {
+  text-decoration: none !important;
 }

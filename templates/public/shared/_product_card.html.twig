@@ -1,0 +1,17 @@
+<a href="#" class="aProductCard">
+    <div class="card productCard">
+        <img
+                {% if product.imageUrl is same as null %}
+                src="{{ asset('images/image_defaut.jpg') }}" alt="image catÃ©gorie"
+                    {% else %}
+                src="{{ product.imageUrl }}"
+                    {% endif %}
+                    alt="{{ product.name }}"
+                    class="img-fluid"
+        />
+        <div class="card-body productCardBody">
+            <p class="card-title">{{ product.name }}</p>
+            <p class="priceProductCard">{{ product.price | amount }} </p>
+        </div>
+    </div>
+</a>

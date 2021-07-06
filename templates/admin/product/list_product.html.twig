@@ -1,0 +1,84 @@
+{% extends "admin/base_admin.html.twig" %}
+
+{% block body %}
+
+<div class="adminPage">
+
+    <div class="row">
+        <div class="menuTopAdmin">
+            <div class="col-12">
+                <h1>Administration</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row divHomePageAdmin">
+        {% include "admin/shared/_sidebar_admin.html.twig" %}
+        <div class="col-9 mt-4">
+            {% include "admin/shared/_messages_flash.html.twig" %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h3>Les produits</h3>
+                        <a class="btn btn-primary" href="{{path('create_product')}}">
+                            <i class="fas fa-plus"></i> Créer
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        {% if products | length > 0 %}
+                            {{knp_pagination_render(products)}}
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <th>Nom</th>
+                                            <th>Prix</th>
+                                            <th>Catégorie</th>
+                                            <th></th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            {% for product in products %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center imageTable">
+                                                            {% if product.imageUrl is same as null %}
+                                                                <img src="{{ asset('images/image-default.jpg') }}" alt="image produit" />
+                                                            {% else %}
+                                                                <img src="{{ asset( product.imageUrl ) }}" alt="image produit" />
+                                                            {% endif %}
+                                                                <p>{{ product.name }}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="parametreTd"><p>{{ product.price | amount }}</p></td>
+                                                    <td class="parametreTd">
+                                                        {% if product.category is not same as null %}
+                                                            <p>{{ product.category.name }}</p>
+                                                        {% else %}
+                                                            <p>Aucune catégorie</p>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{path('edit_product', {'id' : product.id})}}" class="btn btn-sm btn-info btnTable"><i class="fas fa-pen"></i> Modifier</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{path('delete_product', {'id' : product.id})}}" class="btn btn-sm btn-danger btnTable"><i class="fas fa-trash"></i> Supprimer</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    
+                                    </table>
+                                </div>
+                            {{knp_pagination_render(products)}}
+                        {% else %}
+                            <p class="card-text">Aucun produit n'est enregistré</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+{% endblock %}

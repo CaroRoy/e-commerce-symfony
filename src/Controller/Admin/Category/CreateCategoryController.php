@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CreateCategoryController extends AbstractController {
     /**
-     * @Route("admin/category/create",name="create_category")
+     * @Route("admin/categorie/creer",name="create_category")
      */
     public function create(Request $request, EntityManagerInterface $em) : Response {
         $form = $this->createForm(CategoryType::class);

@@ -1,12 +1,37 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Bienvenue sur Café e-Shop{% endblock %}
+{% block title %}Coffee e-Shop{% endblock %}
 
 {% block body %}
+
     <div id="mainPictureDiv">
         <div>
-            <h1>Café e-Shop</h1>
-            <a href="#!" class="btn btn-light">Je commande !</a>
+            <h1>Bienvenue sur Coffee e-Shop</h1>
+            <a href="#" class="btn btn-light">Commander</a>
         </div>
     </div>
+
+    <div class="container pt-5 pb-5 bodyPublicHomePage">
+        <div class="row">
+            <div class="col-12 pb-5">
+                <h3 class="text-center">Les gammes</h3>
+            </div>
+            {% for category in categories %}
+            <div class="col-12 col-md-4 mb-3">
+                {% include "public/shared/_category_card.html.twig" with {'category' : category} %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container pt-5 pb-5 bodyPublicHomePage">
+        <h2 class="text-center">Produits en vedette</h2>
+            <div class="row pt-3">
+                {% for product in products %}
+                    <div class="col-6 col-md-3 mb-3">
+                        {% include "public/shared/_product_card.html.twig" with {'product' : product} %}
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
