@@ -2,7 +2,7 @@
     <a href="#">
         <img
                 {% if category.imageUrl is same as null %}
-                    src="{{ asset('images/image_defaut.jpg') }}" alt="image catÃ©gorie"
+                    src="{{ asset('images/image-default.jpg') }}" alt="image catÃ©gorie"
                 {% else %}
                     src="{{ category.imageUrl }}"
                 {% endif %}
