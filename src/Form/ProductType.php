@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class ProductType extends AbstractType
 {
@@ -25,7 +26,7 @@ class ProductType extends AbstractType
                 'attr' => ['placeholder' => 'prix en €uros'],
                 'divisor' => 100
             ])
-            ->add('description', TextareaType::class, ['label' => 'Description du produit'])
+            ->add('description', CKEditorType::class, ['label' => 'Description du produit'])
             ->add('imageUrl', FileType::class, [
                 'label' => 'Insérer une image',
                 'mapped' => false,
