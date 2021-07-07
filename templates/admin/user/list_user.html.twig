@@ -1,0 +1,61 @@
+{% extends "admin/base_admin.html.twig" %}
+
+{% block body %}
+
+<div class="adminPage">
+
+    <div class="row">
+        <div class="menuTopAdmin">
+            <div class="col-12">
+                <h1>Administration</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row divHomePageAdmin">
+        {% include "admin/shared/_sidebar_admin.html.twig" %}
+        <div class="col-9 mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h3>Les utilisateurs</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if users | length > 0 %}
+                            {{knp_pagination_render(users)}}
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>E-mail</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in users %}
+                                                <tr>
+                                                    <td class="parametreTd"><p>{{ user.firstName }}</p></td>
+                                                    <td class="parametreTd"><p>{{ user.lastName }}</p></td>
+                                                    <td class="parametreTd"><p>{{ user.email }}</p></td>
+                                                    <td>
+                                                        <a href="{{path('show_user', {'id' : user.id})}}" class="btn btn-sm btn-info btnTable"><i class="fas fa-eye"></i> Consulter</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    
+                                    </table>
+                                </div>
+                            {{knp_pagination_render(users)}}
+                        {% else %}
+                            <p class="card-text">Aucun utilisateur n'est enregistré</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+{% endblock %}

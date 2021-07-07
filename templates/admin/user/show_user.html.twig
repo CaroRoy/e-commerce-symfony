@@ -1,0 +1,46 @@
+{% extends "admin/base_admin.html.twig" %}
+
+{% block body %}
+
+<div class="adminPage">
+    <div class="row">
+        <div class="menuTopAdmin">
+            <div class="col-12">
+                <h1>Administration</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row divHomePageAdmin">
+        {% include "admin/shared/_sidebar_admin.html.twig" %}
+        <div class="col-9 mt-4">
+            {% include "admin/shared/_messages_flash.html.twig" %}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h2>{{user.firstName}} {{user.lastName}}</h2>
+                        {% if user.roles[0] is same as "ROLE_ADMIN" %}
+                            <h6>Role : Administrateur</h6>
+                        {% else %}
+                            <h6>Role : Utilisateur</h6>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <h4>Adresse :</h4>
+                            <p>{{user.street}}, {{user.postalCode}} {{user.city}}, {{user.country}}</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div>
+                            <h4>Contact :</h4>
+                            <p>{{user.email}}</p>
+                            <p>{{user.phoneNumber}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-<a href="#" class="aProductCard">
+<a href="{{path('show_product', {'slug' : product.slug} )}}" class="aProductCard">
     <div class="card productCard">
         <img
                 {% if product.imageUrl is same as null %}

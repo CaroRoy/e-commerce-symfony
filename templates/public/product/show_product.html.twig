@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="container pt-5 pb-5 bodyPublicHomePage">
+        <div class="row">
+            <div class="col-12 pb-3">
+                <h3 class="text-center">Détails produit</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>{{product.name}}</h2>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <p>Catégorie : {{product.category.name}}</p>
+                        </div>
+                        <div>
+                            <p>Description : {{product.description}}</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div>
+                            <h4>Prix :</h4>
+                            <p>{{product.price | amount}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
