@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Category;
 
 use App\Form\CategoryType;
+use App\MesServices\ImageServices\CreateImageService;
 use App\MesServices\ImageServices\DeleteImageService;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +15,7 @@ class EditCategoryController extends AbstractController {
     /**
      * @Route("admin/categorie/modifier/{id}", name="edit_category")
      */
-    public function edit(int $id, Request $request, EntityManagerInterface $em, CategoryRepository $categoryRepository, DeleteImageService $deleteImageService) {
+    public function edit(int $id, Request $request, EntityManagerInterface $em, CategoryRepository $categoryRepository, DeleteImageService $deleteImageService, CreateImageService $createImageService) {
         $category = $categoryRepository->find($id);
 
         if (!$category) {
@@ -31,11 +32,12 @@ class EditCategoryController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('imageUrl')->getData();
 
-            if ($image !== null) {
-                $file = md5(uniqid()) . '.' . $image->guessExtension();
-                $image->move($this->getParameter('app_images_directory'), $file);
+            // if ($image !== null) {
+            //     $file = md5(uniqid()) . '.' . $image->guessExtension();
+            //     $image->move($this->getParameter('app_images_directory'), $file);
 
-                $category->setImageUrl('/uploads/' . $file);
+            //     $category->setImageUrl('/uploads/' . $file);
+                $createImageService->createImage($image, $this->getParameter('app_images_directory'), $category);
 
                 // SUPPRESSION DE L'IMAGE D'ORIGINE DU DOSSIER UPLOADS (sans Service)
                 // si on a bien un résultat stocké dans $imageOriginal (donc si on a bien une image originale)
@@ -51,7 +53,7 @@ class EditCategoryController extends AbstractController {
 
                 // Suppression de l'image avec Service DeleteImageService :
                 $deleteImageService->deleteImage($imageOriginal, $this->getParameter('app_images_directory'));
-            }
+            // }
 
             $em->flush();
 

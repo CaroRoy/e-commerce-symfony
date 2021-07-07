@@ -3,7 +3,7 @@
 namespace App\MesServices\ImageServices;
 
 class DeleteImageService {
-    public function deleteImage(string $imageUrl, string $pathToDirectory) {
+    public function deleteImage(?string $imageUrl, string $pathToDirectory) {
         if ($imageUrl !== null) {
             $fileImageOriginal = $pathToDirectory . '/..' . $imageUrl;
 

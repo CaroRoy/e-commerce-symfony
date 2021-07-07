@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Product;
 
 use App\Form\ProductType;
+use App\MesServices\ImageServices\CreateImageService;
 use App\MesServices\ImageServices\DeleteImageService;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +15,7 @@ class EditProductController extends AbstractController {
     /**
      * @Route("admin/produit/modifier/{id}", name="edit_product")
      */
-    public function edit(int $id, Request $request, EntityManagerInterface $em, ProductRepository $productRepository, DeleteImageService $deleteImageService) {
+    public function edit(int $id, Request $request, EntityManagerInterface $em, ProductRepository $productRepository, DeleteImageService $deleteImageService, CreateImageService $createImageService) {
         $product = $productRepository->find($id);
 
         if (!$product) {
@@ -31,17 +32,19 @@ class EditProductController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('imageUrl')->getData();
 
-            if ($image !== null) {
-                $file = md5(uniqid()) . '.' . $image->guessExtension();
-                $image->move($this->getParameter('app_images_directory'), $file);
+            // if ($image !== null) {
+            //     $file = md5(uniqid()) . '.' . $image->guessExtension();
+            //     $image->move($this->getParameter('app_images_directory'), $file);
 
-                $product->setImageUrl('/uploads/' . $file);
+            //     $product->setImageUrl('/uploads/' . $file);
+            $createImageService->createImage($image, $this->getParameter('app_images_directory'), $product);
+
 
                 // SUPPRESSION DE L'IMAGE D'ORIGINE DU DOSSIER UPLOADS (sans Service)
                 // si on a bien un résultat stocké dans $imageOriginal (donc si on a bien une image originale)
                 // if ($imageOriginal !== null) {
                 //     // on stocke le chemin qui va au fichier de l'image dans $fileImageOriginal
-                //     $fileImageOriginal = $this->getParameter('app_images_directory') . '/..' . $imageOriginal;
+                //     $fileImageOriginal = $this->getParameter('app_images_directory') . $imageOriginal;
 
                 //     if (file_exists($fileImageOriginal)) {
                 //         // on supprime du dossier uploads l'image d'origine (avant modif) s'il y en avait une :
@@ -51,7 +54,7 @@ class EditProductController extends AbstractController {
 
                 // Suppression de l'image avec Service DeleteImageService :
                 $deleteImageService->deleteImage($imageOriginal, $this->getParameter('app_images_directory'));
-            }
+            // }
 
             $em->flush();
 

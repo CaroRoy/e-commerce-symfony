@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Category;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\MesServices\ImageServices\CreateImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ class CreateCategoryController extends AbstractController {
     /**
      * @Route("admin/categorie/creer",name="create_category")
      */
-    public function create(Request $request, EntityManagerInterface $em) : Response {
+    public function create(Request $request, EntityManagerInterface $em, CreateImageService $createImageService) : Response {
         $form = $this->createForm(CategoryType::class);
         $form->handleRequest($request);
 
@@ -27,15 +28,16 @@ class CreateCategoryController extends AbstractController {
             $image = $form->get('imageUrl')->getData();
 
             // on vérifie que l'image existe bien :
-            if ($image !== null) {
-                // on crée un nom pour l'image avec une extension
-                $file = md5(uniqid()) . '.' . $image->guessExtension();
-                // on déplace l'image dans le dossier uploads, avec son nouveau nom $file
-                $image->move($this->getParameter('app_images_directory'), $file);
+            // if ($image !== null) {
+            //     // on crée un nom pour l'image avec une extension
+            //     $file = md5(uniqid()) . '.' . $image->guessExtension();
+            //     // on déplace l'image dans le dossier uploads, avec son nouveau nom $file
+            //     $image->move($this->getParameter('app_images_directory'), $file);
 
-                // on attribut cette image $file qui se trouve dans le dossier uploads, pour la category $category
-                $category->setImageUrl('/uploads/' . $file);
-            }
+            //     // on attribut cette image $file qui se trouve dans le dossier uploads, pour la category $category
+            //     $category->setImageUrl('/uploads/' . $file);
+            // }
+            $createImageService->createImage($image, $this->getParameter('app_images_directory'), $category);
 
             $em->persist($category);
             $em->flush();
