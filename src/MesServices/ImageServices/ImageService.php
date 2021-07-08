@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 // }
 
 // ou mieux: avec le containerBag pour obtenir directement le chemin vers le dossier uploads :
-class CreateImageService {
+class ImageService {
 
     protected $containerBag;
 
@@ -35,6 +35,16 @@ class CreateImageService {
             $image->move($this->containerBag->get('app_images_directory'), $file);
 
             $entity->setImageUrl('/uploads/' . $file);
+        }
+    }
+
+    public function deleteImage(?string $imageUrl) {
+        if ($imageUrl !== null) {
+            $fileImageOriginal = $this->containerBag->get('app_images_directory') . '/..' . $imageUrl;
+
+            if (file_exists($fileImageOriginal)) {
+                unlink($fileImageOriginal);
+            }
         }
     }
 }

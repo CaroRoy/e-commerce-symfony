@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin\Category;
 
-use App\MesServices\ImageServices\DeleteImageService;
+use App\MesServices\ImageServices\ImageService;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +13,7 @@ class DeleteCategoryController extends AbstractController {
     /**
      * @Route("admin/categorie/supprimer/{id}", name="delete_category")
      */
-    public function delete(int $id, CategoryRepository $categoryRepository, EntityManagerInterface $em, DeleteImageService $deleteImageService) : RedirectResponse {
+    public function delete(int $id, CategoryRepository $categoryRepository, EntityManagerInterface $em, ImageService $imageService) : RedirectResponse {
         $category = $categoryRepository->find($id);
 
         if (!$category) {
@@ -31,7 +31,7 @@ class DeleteCategoryController extends AbstractController {
         // }
         
         // Processus de suppression de l'image avec Service DeleteImageService
-        $deleteImageService->deleteImage($category->getImageUrl());
+        $imageService->deleteImage($category->getImageUrl());
 
         $em->remove($category);
         $em->flush();

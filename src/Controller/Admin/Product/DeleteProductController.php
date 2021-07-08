@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin\Product;
 
-use App\MesServices\ImageServices\DeleteImageService;
+use App\MesServices\ImageServices\ImageService;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +14,7 @@ class DeleteProductController extends AbstractController {
     /**
      * @Route("/admin/produit/supprimer/{id}", name="delete_product")
      */
-    public function delete(int $id, EntityManagerInterface $em, ProductRepository $productRepository, DeleteImageService $deleteImageService) : RedirectResponse {
+    public function delete(int $id, EntityManagerInterface $em, ProductRepository $productRepository, ImageService $imageService) : RedirectResponse {
         $product = $productRepository->find($id);
 
         if (!$product) {
@@ -32,7 +32,7 @@ class DeleteProductController extends AbstractController {
         // }
 
         // Processus de suppression de l'image avec Service DeleteImageService
-        $deleteImageService->deleteImage($product->getImageUrl());
+        $imageService->deleteImage($product->getImageUrl());
         
         $em->remove($product);
         $em->flush();

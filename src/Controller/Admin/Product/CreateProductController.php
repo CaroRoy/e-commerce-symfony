@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Product;
 
 use App\Entity\Product;
 use App\Form\ProductType;
-use App\MesServices\ImageServices\CreateImageService;
+use App\MesServices\ImageServices\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ class CreateProductController extends AbstractController {
     /**
      * @Route("admin/produit/creer", name="create_product")
      */
-    public function create(EntityManagerInterface $em, Request $request, CreateImageService $createImageService) : Response {
+    public function create(EntityManagerInterface $em, Request $request, ImageService $imageService) : Response {
         $form = $this->createForm(ProductType::class);
         $form->handleRequest($request);
 
@@ -33,7 +33,7 @@ class CreateProductController extends AbstractController {
             //     $product->setImageUrl('/uploads/' . $file);
             // }
 
-            $createImageService->createImage($image, $product);
+            $imageService->createImage($image, $product);
 
             $em->persist($product);
             $em->flush();

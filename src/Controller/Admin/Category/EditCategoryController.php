@@ -3,8 +3,7 @@
 namespace App\Controller\Admin\Category;
 
 use App\Form\CategoryType;
-use App\MesServices\ImageServices\CreateImageService;
-use App\MesServices\ImageServices\DeleteImageService;
+use App\MesServices\ImageServices\ImageService;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,7 @@ class EditCategoryController extends AbstractController {
     /**
      * @Route("admin/categorie/modifier/{id}", name="edit_category")
      */
-    public function edit(int $id, Request $request, EntityManagerInterface $em, CategoryRepository $categoryRepository, DeleteImageService $deleteImageService, CreateImageService $createImageService) {
+    public function edit(int $id, Request $request, EntityManagerInterface $em, CategoryRepository $categoryRepository, ImageService $imageService) {
         $category = $categoryRepository->find($id);
 
         if (!$category) {
@@ -37,7 +36,7 @@ class EditCategoryController extends AbstractController {
             //     $image->move($this->getParameter('app_images_directory'), $file);
 
             //     $category->setImageUrl('/uploads/' . $file);
-                $createImageService->createImage($image, $category);
+                $imageService->createImage($image, $category);
 
                 // SUPPRESSION DE L'IMAGE D'ORIGINE DU DOSSIER UPLOADS (sans Service)
                 // si on a bien un résultat stocké dans $imageOriginal (donc si on a bien une image originale)
@@ -52,7 +51,7 @@ class EditCategoryController extends AbstractController {
                 // }
 
                 // Suppression de l'image avec Service DeleteImageService :
-                $deleteImageService->deleteImage($imageOriginal);
+                $imageService->deleteImage($imageOriginal);
             // }
 
             $em->flush();

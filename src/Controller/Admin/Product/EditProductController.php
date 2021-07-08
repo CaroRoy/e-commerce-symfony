@@ -3,8 +3,7 @@
 namespace App\Controller\Admin\Product;
 
 use App\Form\ProductType;
-use App\MesServices\ImageServices\CreateImageService;
-use App\MesServices\ImageServices\DeleteImageService;
+use App\MesServices\ImageServices\ImageService;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,7 @@ class EditProductController extends AbstractController {
     /**
      * @Route("admin/produit/modifier/{id}", name="edit_product")
      */
-    public function edit(int $id, Request $request, EntityManagerInterface $em, ProductRepository $productRepository, DeleteImageService $deleteImageService, CreateImageService $createImageService) {
+    public function edit(int $id, Request $request, EntityManagerInterface $em, ProductRepository $productRepository, ImageService $imageService) {
         $product = $productRepository->find($id);
 
         if (!$product) {
@@ -37,7 +36,7 @@ class EditProductController extends AbstractController {
             //     $image->move($this->getParameter('app_images_directory'), $file);
 
             //     $product->setImageUrl('/uploads/' . $file);
-            $createImageService->createImage($image, $product);
+            $imageService->createImage($image, $product);
 
 
                 // SUPPRESSION DE L'IMAGE D'ORIGINE DU DOSSIER UPLOADS (sans Service)
@@ -53,7 +52,7 @@ class EditProductController extends AbstractController {
                 // }
 
                 // Suppression de l'image avec Service DeleteImageService :
-                $deleteImageService->deleteImage($imageOriginal);
+                $imageService->deleteImage($imageOriginal);
             // }
 
             $em->flush();

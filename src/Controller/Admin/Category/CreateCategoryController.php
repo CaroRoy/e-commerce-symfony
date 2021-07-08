@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Category;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
-use App\MesServices\ImageServices\CreateImageService;
+use App\MesServices\ImageServices\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ class CreateCategoryController extends AbstractController {
     /**
      * @Route("admin/categorie/creer",name="create_category")
      */
-    public function create(Request $request, EntityManagerInterface $em, CreateImageService $createImageService) : Response {
+    public function create(Request $request, EntityManagerInterface $em, ImageService $imageService) : Response {
         $form = $this->createForm(CategoryType::class);
         $form->handleRequest($request);
 
@@ -37,7 +37,7 @@ class CreateCategoryController extends AbstractController {
             //     // on attribut cette image $file qui se trouve dans le dossier uploads, pour la category $category
             //     $category->setImageUrl('/uploads/' . $file);
             // }
-            $createImageService->createImage($image, $category);
+            $imageService->createImage($image, $category);
 
             $em->persist($category);
             $em->flush();
