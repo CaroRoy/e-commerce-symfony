@@ -32,7 +32,7 @@ class DeleteProductController extends AbstractController {
         // }
 
         // Processus de suppression de l'image avec Service DeleteImageService
-        $deleteImageService->deleteImage($product->getImageUrl(), $this->getParameter('app_images_directory'));
+        $deleteImageService->deleteImage($product->getImageUrl());
         
         $em->remove($product);
         $em->flush();

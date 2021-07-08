@@ -37,7 +37,7 @@ class CreateCategoryController extends AbstractController {
             //     // on attribut cette image $file qui se trouve dans le dossier uploads, pour la category $category
             //     $category->setImageUrl('/uploads/' . $file);
             // }
-            $createImageService->createImage($image, $this->getParameter('app_images_directory'), $category);
+            $createImageService->createImage($image, $category);
 
             $em->persist($category);
             $em->flush();

@@ -31,7 +31,7 @@ class DeleteCategoryController extends AbstractController {
         // }
         
         // Processus de suppression de l'image avec Service DeleteImageService
-        $deleteImageService->deleteImage($category->getImageUrl(), $this->getParameter('app_images_directory'));
+        $deleteImageService->deleteImage($category->getImageUrl());
 
         $em->remove($category);
         $em->flush();

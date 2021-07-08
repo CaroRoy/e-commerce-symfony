@@ -2,10 +2,19 @@
 
 namespace App\MesServices\ImageServices;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+
 class DeleteImageService {
-    public function deleteImage(?string $imageUrl, string $pathToDirectory) {
+
+    protected $containerBag;
+
+    public function __construct(ContainerBagInterface $containerBag) {
+        $this->containerBag = $containerBag;
+    }
+
+    public function deleteImage(?string $imageUrl) {
         if ($imageUrl !== null) {
-            $fileImageOriginal = $pathToDirectory . '/..' . $imageUrl;
+            $fileImageOriginal = $this->containerBag->get('app_images_directory') . '/..' . $imageUrl;
 
             if (file_exists($fileImageOriginal)) {
                 unlink($fileImageOriginal);

@@ -37,7 +37,7 @@ class EditCategoryController extends AbstractController {
             //     $image->move($this->getParameter('app_images_directory'), $file);
 
             //     $category->setImageUrl('/uploads/' . $file);
-                $createImageService->createImage($image, $this->getParameter('app_images_directory'), $category);
+                $createImageService->createImage($image, $category);
 
                 // SUPPRESSION DE L'IMAGE D'ORIGINE DU DOSSIER UPLOADS (sans Service)
                 // si on a bien un résultat stocké dans $imageOriginal (donc si on a bien une image originale)
@@ -52,7 +52,7 @@ class EditCategoryController extends AbstractController {
                 // }
 
                 // Suppression de l'image avec Service DeleteImageService :
-                $deleteImageService->deleteImage($imageOriginal, $this->getParameter('app_images_directory'));
+                $deleteImageService->deleteImage($imageOriginal);
             // }
 
             $em->flush();

@@ -33,7 +33,7 @@ class CreateProductController extends AbstractController {
             //     $product->setImageUrl('/uploads/' . $file);
             // }
 
-            $createImageService->createImage($image, $this->getParameter('app_images_directory'), $product);
+            $createImageService->createImage($image, $product);
 
             $em->persist($product);
             $em->flush();

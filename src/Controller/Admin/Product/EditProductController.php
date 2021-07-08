@@ -37,7 +37,7 @@ class EditProductController extends AbstractController {
             //     $image->move($this->getParameter('app_images_directory'), $file);
 
             //     $product->setImageUrl('/uploads/' . $file);
-            $createImageService->createImage($image, $this->getParameter('app_images_directory'), $product);
+            $createImageService->createImage($image, $product);
 
 
                 // SUPPRESSION DE L'IMAGE D'ORIGINE DU DOSSIER UPLOADS (sans Service)
@@ -53,7 +53,7 @@ class EditProductController extends AbstractController {
                 // }
 
                 // Suppression de l'image avec Service DeleteImageService :
-                $deleteImageService->deleteImage($imageOriginal, $this->getParameter('app_images_directory'));
+                $deleteImageService->deleteImage($imageOriginal);
             // }
 
             $em->flush();
