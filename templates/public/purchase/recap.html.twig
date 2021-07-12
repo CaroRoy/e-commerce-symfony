@@ -1,0 +1,65 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Café e-Shop | panier{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <h2>Vérifiez votre commande</h2>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in detailedCart %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img 
+                                    {% if item.product.imageUrl is same as null %}
+                                        src="{{asset('images/image-default.jpg')}}" 
+                                    {% else %}
+                                        src="{{asset(item.product.imageUrl)}}"
+                                    {% endif %}
+                                    alt="produit {{item.product.name}}" class="imageDetailedCart">
+                                    <p>{{item.product.name}}</p>
+                                </div>
+                            </td>
+                            <td>{{item.product.price | amount}}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-sm btn-secondary">{{item.qty}}</button>
+                                </div>
+                            </td>
+                            <td>{{(item.product.price * item.qty) | amount}}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>
+                            <p><strong>Sous-total : {{total | amount}}</strong></p>
+                            <p>+ 5.99€ de frais de livraison</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 class="pt-5">Vérifiez votre adresse</h2>
+        <div class="card">
+            <div class="card-body">
+                <p>Pays : {{user.country}}</p>
+                <p>Ville : {{user.city}}</p>
+                <p>Code postal : {{user.postalCode}}</p>
+                <p>Rue : {{user.street}}</p>
+                <p>N° de téléphone : {{user.phoneNumber}}</p>
+            </div>
+        </div>
+        <h2 class="pt-5">Finalisez votre commande</h2>
+        <a href="{{path('purchase_confirm')}}" class="btn btn-primary btn-lg">Générer la facture</a>
+    </div>
+{% endblock %}

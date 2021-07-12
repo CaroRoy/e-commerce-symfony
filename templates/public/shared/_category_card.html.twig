@@ -1,5 +1,5 @@
  <div class="card categoryCard">
-    <a href="#">
+    <a href="{{path('show_category_products', {'slug' : category.slug})}}">
         <img
                 {% if category.imageUrl is same as null %}
                     src="{{ asset('images/image-default.jpg') }}" alt="image catÃ©gorie"
@@ -11,7 +11,7 @@
         />
     </a>
     <div class="card-body categoryCardBody">
-        <a href="#" class="btn btn-primary" style="width:100%;">
+        <a href="{{path('show_category_products', {'slug' : category.slug})}}" class="btn btn-primary" style="width:100%;">
             Consulter {{ category.name }}
         </a>
     </div>

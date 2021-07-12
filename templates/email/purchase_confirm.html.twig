@@ -1,0 +1,185 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Facture Coffee Lover numéro {{ purchase.id }}</title>
+    <style>
+        .kirakiraBrand
+        {
+            background: pink;
+            color: black;
+            padding: 10px;
+        }
+
+        .PDFTableP img {
+            height: 70px;
+            object-fit: contain;
+            margin-right: 5px;
+
+        }
+
+        .PDFTableP{
+           display: flex;
+            align-items: center;
+        }
+
+        @media screen and (max-width: 580px) {
+            .PDFTableP{
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+            }
+        }
+
+        .table {
+            --bs-table-bg: transparent;
+            --bs-table-striped-color: #55595c;
+            --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+            --bs-table-active-color: #55595c;
+            --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+            --bs-table-hover-color: #55595c;
+            --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #55595c;
+            vertical-align: top;
+            border-color: rgba(0, 0, 0, 0.05);
+
+        }
+
+        tr{
+            border: 1px solid black;
+        }
+
+        td{
+            border-bottom: 1px solid black;
+
+        }
+
+        .tableP
+        {
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        body{
+            padding: 20px 20px 20px 20px;
+        }
+
+        .imageRecap
+        {
+            height: 70px !important;
+            object-fit: contain;
+        }
+
+        .recapDivImageProductInfo
+        {
+            display: flex;
+            align-items: center;
+        }
+
+        .recapDivItemNameAttribute
+        {
+            display: flex;
+            flex-direction: column;
+            margin-left: 15px;
+
+        }
+
+        .recapDivItemNameAttribute p
+        {
+           margin: 0;
+        }
+
+        .PDFMontantTotal
+        {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body style="background-color: #fff;">
+<div class="container">
+    <h1 class="text-center">Bravo pour votre commande</h1>
+    <div class="row divPDFtitle">
+        <div class="col-4 kirakiraBrand">
+            <h2>COFFEE LOVER</h2>
+        </div>
+        <div>
+            <h2>Facture #{{ purchase.id }}</h2>
+            <p>Facture émise le {{ "now"|date("d/m/Y") }}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row divPDFAdresse">
+        <div class="col-sm-12">
+            <p>Nom du client : {{ purchase.customer.firstName }}  {{ purchase.customer.lastName }}</p>
+            <p>Pays : {{ purchase.customer.country }} </p>
+            <p>Ville : {{ purchase.customer.city }} </p>
+            <p>Code postal : {{ purchase.customer.postalCode }} </p>
+            <p>Téléphone : {{ purchase.customer.phoneNumber }}</p>
+        </div>
+    </div>
+    <hr>
+    <h2 class="mt-4">Paiement à effectuer à la livraison</h2>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Produits</th>
+                    <th>Prix unitaire</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in lines %}
+                    <tr>
+                        <td>
+                             <p class="tableP">{{ item.product.name }}</p>
+                        </td>
+                        <td>
+                            <p class="tableP"> {{ item.product.price | amount}}</p>
+                        </td>
+                        <td>
+                            <p class="tableP">{{ item.quantity }}</p>
+                        </td>
+                        <td>
+                            <p class="tableP"> {{ item.total | amount}}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="3"><p>Sous total  : </p>
+                    </td>
+                    <td colspan="1"><p>{{ purchase.total | amount}}</p></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><p class="PDFMontantTotal">Montant total de la facture  : </p>
+                    </td>
+                    <td colspan="1"><p class="PDFMontantTotal">{{ purchase.total | amount}}</p></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div>
+        <p>Cette facture provient de Coffee Lover.</p>
+   </div>
+</div>
+
+</body>
+</html>

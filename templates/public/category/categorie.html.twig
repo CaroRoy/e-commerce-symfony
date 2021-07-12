@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Café e-Shop{% endblock %}
+
+{% block body %}
+
+    <div class="container pt-5 pb-5 bodyPublicHomePage">
+        <h2 class="text-center">{{category.name}}</h2>
+            <div class="row pt-3">
+                {% for product in category.products %}
+                    <div class="col-6 col-md-3 mb-3">
+                        {% include "public/shared/_product_card.html.twig" with {'product' : product} %}
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

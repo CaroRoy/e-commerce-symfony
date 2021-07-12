@@ -4,6 +4,9 @@
 
 {% block body %}
 <div class="container py-5">
+
+    {% include "public/shared/_category_card.html.twig" with {'category' : category} %}
+
     <div class="row">
         <div class="card">
             <div class="card-header">

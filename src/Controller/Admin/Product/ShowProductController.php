@@ -14,6 +14,21 @@ class ShowProductController extends AbstractController {
      */
     public function showProduct(ProductRepository $productRepository, string $slug) : Response {
         $product = $productRepository->findOneBy(['slug' => $slug]);
-        return $this->render('public/product/show_product.html.twig', ['product' => $product]);
+
+        if (!$product) {
+            $this->addFlash('warning', 'Produit inconnu');
+            return $this->redirectToRoute('public_home');
+        }
+
+        $category = $product->getCategory();
+
+        $productsAssociate = [];
+
+        if ($category) {
+            $productsAssociate = $productRepository->findProductToPropose($product);
+        }
+
+
+        return $this->render('public/product/show_product.html.twig', ['product' => $product, 'productsAssociate' => $productsAssociate]);
     }
 }

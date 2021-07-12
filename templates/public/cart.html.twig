@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Café e-Shop | panier{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% include "public/shared/_messages_flash.html.twig" %}
+
+        {% if detailedCart | length > 0 %}
+            <h1>Votre panier</h1>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in detailedCart %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img 
+                                        {% if item.product.imageUrl is same as null %}
+                                            src="{{asset('images/image-default.jpg')}}" 
+                                        {% else %}
+                                            src="{{asset(item.product.imageUrl)}}"
+                                        {% endif %}
+                                        alt="produit {{item.product.name}}" class="imageDetailedCart">
+                                        <p>{{item.product.name}}</p>
+                                    </div>
+                                </td>
+                                <td>{{item.product.price | amount}}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a href="{{path('cart_decrement', {'id': item.product.id})}}" class="btn btn-sm btn-primary"><i class="fas fa-minus"></i></a>
+                                        <button class="btn btn-sm btn-secondary">{{item.qty}}</button>
+                                        <a href="{{path('cart_add', {'id': item.product.id})}}?returnToCart=true" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i></a>
+                                    </div>
+                                    <a href="{{path('cart_remove', {'id': item.product.id})}}" class="btn btn-link btn-sm">Supprimer</a>
+                                </td>
+                                <td>{{(item.product.price * item.qty) | amount}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex flex-column align-items-end">
+                <div>
+                    <p>Sous-total : {{total | amount}}</p>
+                    <p>+ Frais de livraison : 5,99€</p>
+                </div>
+                <div>
+                    <a href="{{path('purchase_recap')}}" class="btn btn-primary btn-lg">Commander</a>
+                </div>
+            </div>
+
+        {% else %}
+            <p>Panier vide</p>
+            <a href="{{path('public_home')}}">Continuer le shopping</a>
+            
+        {% endif %}
+
+    </div>
+{% endblock %}

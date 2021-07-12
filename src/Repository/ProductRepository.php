@@ -19,6 +19,28 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    // Pour afficher des produits recommandés sur la page show_product d'un produit sélectionné
+    /**
+     * @return Product[] Returns an array of Products
+     */
+    public function findProductToPropose(Product $product)
+    {
+        return $this->createQueryBuilder('p')
+            // on ne veut pas l'id qui correspond au produit sélectionné (on veut tous sauf celui-ci)
+            ->andWhere('p.id != :id_product')
+            // cet id qu'on ne veut pas, c'est le $product->getId()
+            ->setParameter('id_product', $product->getId())
+            // on veut les produits qui appartiennent à la même catégorie du produit sélectionné
+            ->andWhere('p.category = :category')
+            ->setParameter('category', $product->getCategory())
+            // on ne veut que 4 résultats max
+            ->setMaxResults(4)
+            // on envoie la requête
+            ->getQuery()
+            // on récupère les résultats
+            ->getResult();
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */
